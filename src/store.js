@@ -1,7 +1,8 @@
 import { writable } from 'svelte/store'
 
-const PLAYER_1 = 'X'
-const PLAYER_2 = 'O'
+export const PLAYER_1 = 'X'
+export const PLAYER_2 = 'O'
+export const DRAW = 'draw'
 
 const STARTING_GAME_STATE = {
     history: [],
@@ -26,7 +27,8 @@ function createGameState() {
 
             squares[index] = state.currentPlayer
 
-            const winningPlayer = calculateWinner(squares)
+            const allSquaresFilled = !squares.filter(square => !square).length
+            const winningPlayer = calculateWinner(squares) || (allSquaresFilled && DRAW)
 
             return {
                 history: history.concat([{ squares: state.squares }]),

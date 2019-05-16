@@ -1,6 +1,6 @@
 <script>
 	import Board from './Board.svelte'
-	import { gameState } from './store.js'
+	import { gameState, DRAW } from './store.js'
 
 	function onSquareClick(e) {
 		let index = e.target.dataset.index
@@ -25,8 +25,14 @@
 	</div>
 
 	<div class="game-info">
-		<p>Current player is: {$gameState.currentPlayer}</p>
-		<p>Winning player is: {$gameState.winningPlayer}</p>
+		{#if $gameState.winningPlayer === DRAW}
+			<p>GAME OVER: it's a draw!</p>
+		{:else if $gameState.winningPlayer}
+			<p>GAME OVER: Player <strong>{$gameState.winningPlayer}</strong> won!</p>
+		{:else}
+			<p>Current player is: {$gameState.currentPlayer}</p>
+		{/if}
+		
 		<p><button on:click={gameState.reset}>Start a new game</button></p>
 	</div>
 </div>
